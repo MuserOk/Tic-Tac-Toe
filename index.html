@@ -4,10 +4,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./output.css">
     <title>Document</title>
 </head>
 
-<body>
+<body class="w-screen h-full flex flex-col justify-center items-center">
+    <!--Menú inicial-->
+    <div class="flex flex-col justify-center items-center bg-blue-950 w-[280px] h-[420px] rounded-md mt-20">
+        <img src="./XO.png" alt="cruz y cero" class="w-15">
+        <div class="flex flex-col justify-center items-center">
+            <div class="text-white text-xs mt-6">PICK PLAYER 1'S MARK</div>
+            <div class="flex gap-1 mt-4 ">
+                <div><button class="hover:bg-gray-400 px-10 pt-2 pb-2 rounded-md">X</button></div>
+                <div><button class="bg-gray-400 hover:bg-transparent font-extrabold px-10 pt-2 pb-2 rounded-md">o</button></div>
+            </div>
+            <div class="text-white text-xs mt-4">REMEMBER: X GOES FIRST</div>
+        </div>
+        <div class="grid grid-col-1 gap-2 mt-8 ">
+            <div><button class="bg-orange-400 p-2 px-9 rounded-md w-full max-w-[250px]">NEW GAME (VS CPU)</button></div>
+            <div><button class="bg-green-400 p-2 px-9 rounded-md w-full max-w-[250px]">NEW GAME (VS PLAYER)</button></div>
+        </div>
+    </div>
+    <!--Menú durante el juego-->
+    <div class="relative flex flex-col justify-center items-center bg-blue-950 w-[280px] h-[420px] rounded-md mt-20">
+        <!--Encabezado del juego-->
+        <div class="absolute top-2 px-1 items-center flex justify-around w-full">
+            <img src="./XO.png" alt="cruz y cero" class="w-15">
+            <button class="shadow-lg/80 shadow-black/100 bg-blue-900 px-6 rounded-md"> X TURN</button>
+            <button>
+                <svg xmlns="http://www.w3.org/2000/svg" 
+                    width="14" 
+                    height="14" 
+                    viewBox="0 0 24 24"
+                    class="bg-gray-400 p-1 rounded-md w-6 h-6">
+                    <path fill="currentColor" d="M17.65 6.35A7.96 7.96 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0 1 12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4z"/>
+                </svg>
+            </button>
+        </div>
+        <!--tablero-->
+        <div class="grid grid-cols-3 gap-4 w-55 h-55 pt-4 text-center">
+            <div class="bg-blue-900 rounded-md shadow-lg/80 shadow-black/100">1</div>
+            <div class="bg-blue-900 rounded-md shadow-lg/80 shadow-black/100">2</div>
+            <div class="bg-blue-900 rounded-md shadow-lg/80 shadow-black/100">3</div>
+            <div class="bg-blue-900 rounded-md shadow-lg/80 shadow-black/100">4</div>
+            <div class="bg-blue-900 rounded-md shadow-lg/80 shadow-black/100">5</div>
+            <div class="bg-blue-900 rounded-md shadow-lg/80 shadow-black/100">6</div>
+            <div class="bg-blue-900 rounded-md shadow-lg/80 shadow-black/100">7</div>
+            <div class="bg-blue-900 rounded-md shadow-lg/80 shadow-black/100">8</div>
+            <div class="bg-blue-900 rounded-md shadow-lg/80 shadow-black/100">9</div>
+        </div>
+        <!--Resultados-->
+        <div class="grid grid-cols-3 gap-2 mt-4 ">
+            <button class="bg-green-400 p-1 px-3 rounded-md text-sm">
+                <p>X (you)</p>
+                <p class="font-bold">14</p>
+            </button>
+            <button class="bg-gray-400 p-1 px-3 rounded-md text-sm">
+              <p>TIES</p> 
+              <p class="font-bold">32</p> 
+            </button>
+            <button class="bg-orange-400 p-1 px-2 rounded-md text-sm">
+                <p>O (CPU)</p>
+                <p class="font-bold">11</p>
+            </button>
+        </div>
+    </div>
+    <!--Menú resultado-->
+    <div class="relative flex flex-col justify-center items-center bg-blue-950 w-[280px] h-[420px] rounded-md mt-20">
+        <!--Encabezado del juego-->
+        <div class="absolute top-2 px-1 items-center flex justify-around w-full">
+            <img src="./XO.png" alt="cruz y cero" class="w-15">
+            <button class="shadow-lg/80 shadow-black/100 bg-blue-900 px-6 rounded-md"> X TURN</button>
+            <button>
+                <svg xmlns="http://www.w3.org/2000/svg" 
+                    width="14" 
+                    height="14" 
+                    viewBox="0 0 24 24"
+                    class="bg-gray-400 p-1 rounded-md w-6 h-6">
+                    <path fill="currentColor" d="M17.65 6.35A7.96 7.96 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0 1 12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4z"/>
+                </svg>
+            </button>
+        </div>
+        <!--tablero-->
+        <div class="grid grid-cols-3 gap-4 w-55 h-55 pt-4 text-center">
+            <div class="bg-blue-900 rounded-md shadow-lg/80 shadow-black/100">1</div>
+            <div class="bg-blue-900 rounded-md shadow-lg/80 shadow-black/100">2</div>
+            <div class="bg-blue-900 rounded-md shadow-lg/80 shadow-black/100">3</div>
+            <div class="bg-blue-900 rounded-md shadow-lg/80 shadow-black/100">4</div>
+            <div class="bg-blue-900 rounded-md shadow-lg/80 shadow-black/100">5</div>
+            <div class="bg-blue-900 rounded-md shadow-lg/80 shadow-black/100">6</div>
+            <div class="bg-blue-900 rounded-md shadow-lg/80 shadow-black/100">7</div>
+            <div class="bg-blue-900 rounded-md shadow-lg/80 shadow-black/100">8</div>
+            <div class="bg-blue-900 rounded-md shadow-lg/80 shadow-black/100">9</div>
+        </div>
+        <!--Resultados-->
+        <div class="grid grid-cols-3 gap-2 mt-4 ">
+            <button class="bg-green-400 p-1 px-3 rounded-md text-sm">
+                <p>X (you)</p>
+                <p class="font-bold">14</p>
+            </button>
+            <button class="bg-gray-400 p-1 px-3 rounded-md text-sm">
+              <p>TIES</p> 
+              <p class="font-bold">32</p> 
+            </button>
+            <button class="bg-orange-400 p-1 px-2 rounded-md text-sm">
+                <p>O (CPU)</p>
+                <p class="font-bold">11</p>
+            </button>
+        </div>
+        <!--Cartel ganador-->
+        <div class="absolute z-10 flex flex-col justify-center items-center gap-2 p-2 bg-blue-700 w-full h-40 rounded-md">
+            <div>YOU WON</div>
+            <div class="text-green-400 font-extrabold">X TAKEN THE ROUND</div>
+            <div class="pt-4">
+                <button class="bg-gray-400 p-1 px-2 rounded-md font-bold">QUIT</button>
+                <button class="bg-orange-400 p-1 px-5 rounded-md font-bold">NEXT ROUND</button>
+            </div>
+        </div>
+
+    </div>
 
 </body>
 
