@@ -1,138 +1,98 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./output.css" />
-    <title>Document</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./main.js" defer></script>
+    <link rel="stylesheet" href="./output.css">
+    <title>Tic-Tac-Toe</title>
 </head>
 
-<body class="w-screen h-full flex flex-col justify-center items-center bg-gray-900">
-
+<body class="w-screen min-h-screen flex flex-col justify-center items-center bg-blue-950 p-4">
     <!-- Menú inicial -->
-    <div class="flex flex-col justify-center items-center bg-blue-950 rounded-md mt-20 p-4 w-[280px] h-[420px] sm:w-[400px] sm:h-[700px] md:w-[500px] md:h-[800px] lg:w-[600px] lg:h-[900px] xl:w-[700px] xl:h-[900px]">
-        <img src="./XO.png" alt="cruz y cero" class="w-16 sm:w-20 md:w-24 lg:w-28 xl:w-32" />
+    <div id="menuInicio" class="flex flex-col justify-center items-center bg-blue-950 rounded-lg p-6 w-full max-w-[280px] h-[420px] sm:max-w-[400px] sm:h-[500px] md:max-w-[500px] md:h-[600px] lg:max-w-[600px] lg:h-[700px] xl:max-w-[700px] xl:h-[800px]">
+        <img src="./XO.png" alt="cruz y círculo" class="w-16 sm:w-20 md:w-24 lg:w-28 xl:w-32 mb-4">
 
-        <div class="flex flex-col justify-center items-center bg-blue-900 p-4 rounded-md mt-6">
-            <div class="text-white text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-semibold">
-                PICK PLAYER 1'S MARK
-            </div>
-            <div class="flex gap-2 mt-4 bg-blue-950 p-2 rounded-md">
-                <button class="hover:bg-gray-400 px-6 py-2 hover:text-blue-950 text-gray-400 rounded-md text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-extrabold">
-          X
-        </button>
-                <button class="bg-gray-400 hover:bg-transparent text-blue-950 hover:text-gray-400 font-extrabold px-6 py-2 rounded-md text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl">
-          O
-        </button>
-            </div>
-            <div class="text-white text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl mt-4">
-                REMEMBER: X GOES FIRST
-            </div>
-        </div>
+        <div class="flex flex-col justify-center items-center bg-blue-900 p-4 rounded-lg w-full">
+            <p class="text-white text-center text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-semibold mb-2">
+                SELECCIONE FICHA DEL JUGADOR 1
+            </p>
 
-        <div class="flex flex-col gap-4 mt-8 w-full max-w-[250px] sm:max-w-[300px] md:max-w-[350px] lg:max-w-[400px] xl:max-w-[450px]">
-            <button class="bg-orange-400 hover:bg-orange-500 py-2 rounded-md text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl">
-        NEW GAME (VS CPU)
-      </button>
-            <button class="bg-green-400 hover:bg-green-500 py-2 rounded-md text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl">
-        NEW GAME (VS PLAYER)
-      </button>
+            <div class="flex gap-2 my-4 bg-blue-950 p-2 rounded-lg">
+                <button id="btn-x" class="px-6 py-2 rounded-md text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-extrabold bg-gray-400 text-blue-950">
+                    X
+                </button>
+                <button id="btn-o" class="px-6 py-2 rounded-md text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-extrabold hover:bg-gray-400 hover:text-blue-950 text-gray-400">
+                    O
+                </button>
+            </div>
+
+            <p class="text-white text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl mb-4 text-center">
+                RECUERDA: X EMPIEZA PRIMERO
+            </p>
+
+            <div class="flex flex-col gap-3 w-full mt-4">
+                <button id="vsCpu" class="text-white font-bold text-center bg-orange-400 hover:bg-orange-500 py-2 rounded-lg text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl transition-colors">
+                    NUEVO JUEGO (VS CPU)
+                </button>
+                <button id="vsPlayer" class="text-white font-bold text-center bg-green-400 hover:bg-green-500 py-2 rounded-lg text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl transition-colors">
+                    NUEVO JUEGO (VS JUGADOR)
+                </button>
+            </div>
         </div>
     </div>
 
-    <!-- Menú durante el juego -->
-    <div class="relative flex flex-col justify-center items-center bg-blue-950 rounded-md mt-20 p-4 w-[280px] h-[420px] sm:w-[400px] sm:h-[600px] md:w-[500px] md:h-[700px] lg:w-[600px] lg:h-[900px] xl:w-[700px] xl:h-[900px]">
+    <!-- Juego - oculto al principio -->
+    <div id="contenedorJuego" class="hidden flex flex-col items-center justify-center bg-blue-950 rounded-lg p-6 w-full max-w-[280px] h-[420px] sm:max-w-[400px] sm:h-[500px] md:max-w-[500px] md:h-[600px] lg:max-w-[600px] lg:h-[700px] xl:max-w-[700px] xl:h-[800px]">
         <!-- Encabezado -->
-        <div class="absolute top-2 flex justify-around items-center w-full px-4">
-            <img src="./XO.png" alt="cruz y cero" class="w-16" />
-            <button class="bg-blue-900 px-6 py-1 rounded-md text-white text-sm">X TURN</button>
-            <button>
-        <svg xmlns="http://www.w3.org/2000/svg" class="bg-gray-400 p-1 rounded-md w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M17.65 6.35A7.96 7.96 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4z" />
-        </svg>
-      </button>
+        <div class="flex justify-between items-center w-full mb-4 sm:mb-6">
+            <img src="./XO.png" alt="cruz y círculo" class="w-12 sm:w-16 md:w-20 lg:w-24 xl:w-28">
+            <p id="indicadorTurno" class="bg-blue-800 text-white text-center px-4 py-2 rounded-lg shadow text-xs sm:text-sm md:text-base lg:text-lg lg:mr-6 xl:text-xl font-medium">
+                TURNO DE X
+            </p>
+            <button id="botonReiniciar" class="bg-gray-400 hover:bg-gray-300 p-2 m-2 sm:m-3 md:m-4 lg:mr-3 xl:m-6 rounded-lg transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" class="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7">
+                    <path fill="currentColor" d="M17.65 6.35A7.96 7.96 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0 1 12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4z"/>
+                </svg>
+            </button>
         </div>
 
         <!-- Tablero -->
-        <div class="grid grid-cols-3 gap-4 pt-12 text-center w-full max-w-[260px] sm:max-w-[320px] md:max-w-[360px]">
-            <div class="bg-blue-900 rounded-md text-white py-4">1</div>
-            <div class="bg-blue-900 rounded-md text-white py-4">2</div>
-            <div class="bg-blue-900 rounded-md text-white py-4">3</div>
-            <div class="bg-blue-900 rounded-md text-white py-4">4</div>
-            <div class="bg-blue-900 rounded-md text-white py-4">5</div>
-            <div class="bg-blue-900 rounded-md text-white py-4">6</div>
-            <div class="bg-blue-900 rounded-md text-white py-4">7</div>
-            <div class="bg-blue-900 rounded-md text-white py-4">8</div>
-            <div class="bg-blue-900 rounded-md text-white py-4">9</div>
+        <div id="tablero" class="grid grid-cols-3 gap-3 w-full mb-4 sm:mb-6 place-items-center">
+            <!-- Celdas generadas dinámicamente -->
         </div>
 
-        <!-- Resultados -->
-        <div class="grid grid-cols-3 gap-2 mt-6 w-full max-w-[280px]">
-            <button class="bg-green-400 p-2 rounded-md text-xs sm:text-sm">
-        <p>X (you)</p>
-        <p class="font-bold">14</p>
-      </button>
-            <button class="bg-gray-400 p-2 rounded-md text-xs sm:text-sm">
-        <p>TIES</p>
-        <p class="font-bold">32</p>
-      </button>
-            <button class="bg-orange-400 p-2 rounded-md text-xs sm:text-sm">
-        <p>O (CPU)</p>
-        <p class="font-bold">11</p>
-      </button>
-        </div>
-    </div>
-
-    <!-- Menú resultado -->
-    <div class="relative flex flex-col justify-center items-center bg-blue-950 rounded-md mt-20 p-4 w-[280px] h-[420px] sm:w-[400px] sm:h-[600px] md:w-[500px] md:h-[700px] lg:w-[600px] lg:h-[900px] xl:w-[700px] xl:h-[900px]">
-        <!-- Encabezado -->
-        <div class="absolute top-2 flex justify-around items-center w-full px-4">
-            <img src="./XO.png" alt="cruz y cero" class="w-16" />
-            <button class="bg-blue-900 px-6 py-1 rounded-md text-white text-sm">X TURN</button>
-            <button>
-        <svg xmlns="http://www.w3.org/2000/svg" class="bg-gray-400 p-1 rounded-md w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M17.65 6.35A7.96 7.96 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4z" />
-        </svg>
-      </button>
+        <!-- Marcadores -->
+        <div class="grid grid-cols-3 gap-3 w-full">
+            <div class="bg-green-400 p-2 rounded-lg text-center">
+                <p id="etiquetaJugador1" class="text-xs sm:text-sm md:text-base text-center">X (TÚ)</p>
+                <p id="puntuacionX" class="font-bold text-sm sm:text-base md:text-lg lg:text-xl">0</p>
+            </div>
+            <div class="bg-gray-400 p-2 rounded-lg text-center">
+                <p class="text-xs sm:text-sm md:text-base">EMPATES</p>
+                <p id="puntuacionEmpates" class="font-bold text-sm sm:text-base md:text-lg lg:text-xl">0</p>
+            </div>
+            <div class="bg-orange-400 p-2 rounded-lg text-center">
+                <p id="etiquetaJugador2" class="text-xs sm:text-sm md:text-base text-center">O (CPU)</p>
+                <p id="puntuacionO" class="font-bold text-sm sm:text-base md:text-lg lg:text-xl">0</p>
+            </div>
         </div>
 
-        <!-- Tablero -->
-        <div class="grid grid-cols-3 gap-4 pt-12 text-center w-full max-w-[260px]">
-            <div class="bg-blue-900 rounded-md text-white py-4">1</div>
-            <div class="bg-blue-900 rounded-md text-white py-4">2</div>
-            <div class="bg-blue-900 rounded-md text-white py-4">3</div>
-            <div class="bg-blue-900 rounded-md text-white py-4">4</div>
-            <div class="bg-blue-900 rounded-md text-white py-4">5</div>
-            <div class="bg-blue-900 rounded-md text-white py-4">6</div>
-            <div class="bg-blue-900 rounded-md text-white py-4">7</div>
-            <div class="bg-blue-900 rounded-md text-white py-4">8</div>
-            <div class="bg-blue-900 rounded-md text-white py-4">9</div>
-        </div>
-
-        <!-- Resultados -->
-        <div class="grid grid-cols-3 gap-2 mt-6 w-full max-w-[280px]">
-            <button class="bg-green-400 p-2 rounded-md text-xs sm:text-sm">
-        <p>X (you)</p>
-        <p class="font-bold">14</p>
-      </button>
-            <button class="bg-gray-400 p-2 rounded-md text-xs sm:text-sm">
-        <p>TIES</p>
-        <p class="font-bold">32</p>
-      </button>
-            <button class="bg-orange-400 p-2 rounded-md text-xs sm:text-sm">
-        <p>O (CPU)</p>
-        <p class="font-bold">11</p>
-      </button>
-        </div>
-
-        <!-- Cartel ganador -->
-        <div class="absolute z-10 lg:top-70 top-30 flex flex-col justify-center items-center gap-2 p-4 bg-blue-700 w-screen h-40 bottom-0 rounded-md text-white text-sm sm:text-base">
-            <div>YOU WON</div>
-            <div class="text-green-400 font-extrabold">X TAKES THE ROUND</div>
-            <div class="pt-4 flex gap-4">
-                <button class="bg-gray-400 px-4 py-1 rounded-md font-bold">QUIT</button>
-                <button class="bg-orange-400 px-6 py-1 rounded-md font-bold">NEXT ROUND</button>
+        <!-- Modal de resultado -->
+        <div id="modalResultado" class="hidden absolute inset-0 flex items-center justify-center z-10">
+            <div class="absolute inset-0 bg-blue-950 opacity-90"></div>
+            <div class="relative bg-blue-800 p-6 rounded-lg text-center text-white w-full">
+                <div id="textoResultado" class="text-lg sm:text-xl md:text-2xl font-bold mb-1"></div>
+                <div id="detalleResultado" class="text-green-400 text-sm sm:text-base md:text-lg mb-4"></div>
+                <div class="flex justify-center gap-3">
+                    <button id="botonSalir" class="bg-gray-400 hover:bg-gray-300 px-4 py-2 rounded-lg font-bold text-sm sm:text-base">
+                        SALIR
+                    </button>
+                    <button id="botonSiguienteRonda" class="text-center bg-orange-400 hover:bg-orange-500 px-4 py-2 rounded-lg font-bold text-sm sm:text-base">
+                        SIGUIENTE RONDA
+                    </button>
+                </div>
             </div>
         </div>
     </div>
